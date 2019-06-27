@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/MartinRusso28/matrix-formatter/pkg/server"
+	"github.com/MartinRusso28/matrixfmt/pkg/server"
 )
 
 func main() {

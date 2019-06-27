@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/MartinRusso28/matrix-formatter/internal/network"
-	"github.com/MartinRusso28/matrix-formatter/pkg/matrixformatter"
+	"github.com/MartinRusso28/matrixfmt/internal/network"
+	"github.com/MartinRusso28/matrixfmt/pkg/matrixfmt"
 	"github.com/gin-gonic/gin"
 
 	"errors"
@@ -14,12 +14,7 @@ var (
 	response network.Response
 )
 
-// Run with
-//		go run .
-// Send request with:
-//		curl -F 'file=@/path/matrix.csv' "localhost:8080/echo"
-
-//GetMainEngine return money converter's server.
+//GetMainEngine return matrix formatter server.
 func GetMainEngine() *gin.Engine {
 
 	router := gin.Default()
@@ -59,7 +54,7 @@ func (env environment) echo(c *gin.Context) {
 		env.respondAndAbort(c, response)
 	}
 
-	response = matrixformatter.Echo(file.(io.Reader))
+	response = matrixfmt.Echo(file.(io.Reader))
 
 	env.respond(c, response)
 }
@@ -74,7 +69,7 @@ func (env environment) invert(c *gin.Context) {
 		env.respondAndAbort(c, response)
 	}
 
-	response = matrixformatter.Invert(file)
+	response = matrixfmt.Invert(file)
 
 	env.respond(c, response)
 }
@@ -89,7 +84,7 @@ func (env environment) flatten(c *gin.Context) {
 		env.respondAndAbort(c, response)
 	}
 
-	response = matrixformatter.Flatten(file)
+	response = matrixfmt.Flatten(file)
 
 	env.respond(c, response)
 }
@@ -100,9 +95,9 @@ func (env environment) sum(c *gin.Context) {
 	if err != nil {
 		response := network.InternalServerError(errors.New("Invalid file"))
 		env.respond(c, response)
-	} 
+	}
 
-	response = matrixformatter.Sum(file)
+	response = matrixfmt.Sum(file)
 
 	env.respond(c, response)
 }
@@ -113,9 +108,9 @@ func (env environment) multiply(c *gin.Context) {
 	if err != nil {
 		response := network.InternalServerError(errors.New("Invalid file"))
 		env.respond(c, response)
-	} 
+	}
 
-	response = matrixformatter.Multiply(file)
+	response = matrixfmt.Multiply(file)
 
 	env.respond(c, response)
 }

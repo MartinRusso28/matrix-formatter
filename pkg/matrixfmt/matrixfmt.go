@@ -1,4 +1,4 @@
-package matrixformatter
+package matrixfmt
 
 import (
 	"encoding/csv"
@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MartinRusso28/matrix-formatter/internal/network"
+	"github.com/MartinRusso28/matrixfmt/internal/network"
 )
 
 //Echo return the matrix as a string in matrix format.
