@@ -37,18 +37,18 @@ func Test_echo_fail_if_records_have_a_non_numeric_cell(t *testing.T){
 }
 
 func Test_echo_success_if_have_valid_record(t *testing.T){
-	nonNumMatrix := make([][]string, 2)
-	nonNumMatrix[0] = make([]string, 2)
-	nonNumMatrix[1] = make([]string, 2)
+	matrix := make([][]string, 2)
+	matrix[0] = make([]string, 2)
+	matrix[1] = make([]string, 2)
 
-	for i, row := range nonNumMatrix {
+	for i, row := range matrix {
 		for j, _ := range row {
 			num := strconv.Itoa(i)
-			nonNumMatrix[i][j] = num
+			matrix[i][j] = num
 		}
 	}
 
-	response := Echo(nonNumMatrix)
+	response := Echo(matrix)
 
 	assert.Equal(t, 200, response.StatusCode)
 	assert.Equal(t, "0,0\n1,1\n", response.Body)
@@ -84,18 +84,18 @@ func Test_Invert_fail_if_records_have_a_non_numeric_cell(t *testing.T){
 }
 
 func Test_Invert_success_if_have_valid_record(t *testing.T){
-	nonNumMatrix := make([][]string, 2)
-	nonNumMatrix[0] = make([]string, 2)
-	nonNumMatrix[1] = make([]string, 2)
+	matrix := make([][]string, 2)
+	matrix[0] = make([]string, 2)
+	matrix[1] = make([]string, 2)
 
-	for i, row := range nonNumMatrix {
+	for i, row := range matrix {
 		for j, _ := range row {
 			num := strconv.Itoa(i)
-			nonNumMatrix[i][j] = num
+			matrix[i][j] = num
 		}
 	}
 
-	response := Invert(nonNumMatrix)
+	response := Invert(matrix)
 
 	assert.Equal(t, 200, response.StatusCode)
 	assert.Equal(t, "0,1\n0,1\n", response.Body)
@@ -131,18 +131,18 @@ func Test_Flatten_fail_if_records_have_a_non_numeric_cell(t *testing.T){
 }
 
 func Test_Flatten_success_if_have_valid_record(t *testing.T){
-	nonNumMatrix := make([][]string, 2)
-	nonNumMatrix[0] = make([]string, 2)
-	nonNumMatrix[1] = make([]string, 2)
+	matrix := make([][]string, 2)
+	matrix[0] = make([]string, 2)
+	matrix[1] = make([]string, 2)
 
-	for i, row := range nonNumMatrix {
+	for i, row := range matrix {
 		for j, _ := range row {
 			num := strconv.Itoa(i)
-			nonNumMatrix[i][j] = num
+			matrix[i][j] = num
 		}
 	}
 
-	response := Flatten(nonNumMatrix)
+	response := Flatten(matrix)
 
 	assert.Equal(t, 200, response.StatusCode)
 	assert.Equal(t, "0,0,1,1", response.Body)
@@ -178,18 +178,18 @@ func Test_Sum_fail_if_records_have_a_non_numeric_cell(t *testing.T){
 }
 
 func Test_Sum_success_if_have_valid_record(t *testing.T){
-	nonNumMatrix := make([][]string, 2)
-	nonNumMatrix[0] = make([]string, 2)
-	nonNumMatrix[1] = make([]string, 2)
+	matrix := make([][]string, 2)
+	matrix[0] = make([]string, 2)
+	matrix[1] = make([]string, 2)
 
-	for i, row := range nonNumMatrix {
+	for i, row := range matrix {
 		for j, _ := range row {
 			num := strconv.Itoa(i)
-			nonNumMatrix[i][j] = num
+			matrix[i][j] = num
 		}
 	}
 
-	response := Sum(nonNumMatrix)
+	response := Sum(matrix)
 
 	assert.Equal(t, 200, response.StatusCode)
 	assert.Equal(t, "2", response.Body)
@@ -225,17 +225,17 @@ func Test_Multiply_fail_if_records_have_a_non_numeric_cell(t *testing.T){
 }
 
 func Test_Multiply_success_if_have_valid_record(t *testing.T){
-	nonNumMatrix := make([][]string, 2)
-	nonNumMatrix[0] = make([]string, 2)
-	nonNumMatrix[1] = make([]string, 2)
+	matrix := make([][]string, 2)
+	matrix[0] = make([]string, 2)
+	matrix[1] = make([]string, 2)
 
-	for i, row := range nonNumMatrix {
+	for i, row := range matrix {
 		for j, _ := range row {
-			nonNumMatrix[i][j] = "2"
+			matrix[i][j] = "2"
 		}
 	}
 
-	response := Multiply(nonNumMatrix)
+	response := Multiply(matrix)
 
 	assert.Equal(t, 200, response.StatusCode)
 	assert.Equal(t, "16", response.Body)
