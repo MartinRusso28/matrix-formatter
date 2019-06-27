@@ -2,7 +2,7 @@ package network
 
 //Response represent a request response.
 type Response struct {
-	StatusCode int `valid:"required"`
+	StatusCode int
 	Body       string
 	Error      error
 }
