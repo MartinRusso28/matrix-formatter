@@ -13,8 +13,6 @@ import (
 func Echo(records [][]string) network.Response {
 	var body string
 
-	response := network.Response{}
-
 	err := validateRecords(records) 
 
 	if err != nil {
@@ -25,18 +23,12 @@ func Echo(records [][]string) network.Response {
 		body = fmt.Sprintf("%s%s\n", body, strings.Join(row, ","))
 	}
 
-	response.Body = body
-	response.StatusCode = 200
-
-	return response
+	return network.OkResponse(body)
 }
 
 //Invert return the matrix as a string in matrix format where the columns and rows are inverted
 func Invert(records [][]string) network.Response {
-	var (
-		body     string
-		response network.Response
-	)
+	var	body string
 
 	err := validateRecords(records)
 
@@ -50,17 +42,12 @@ func Invert(records [][]string) network.Response {
 		body = fmt.Sprintf("%s%s\n", body, strings.Join(invertedRow, ","))
 	}
 
-	response.Body = body
-	response.StatusCode = 200
-
-	return response
+	return network.OkResponse(body)
 }
 
 //Flatten return the matrix as a 1 line string, with values separated by commas.
 func Flatten(records [][]string) network.Response {
 	var rows []string
-
-	response := network.Response{}
 
 	err := validateRecords(records)
 
@@ -72,17 +59,12 @@ func Flatten(records [][]string) network.Response {
 		rows = append(rows, fmt.Sprintf("%s", strings.Join(row, ",")))
 	}
 
-	response.Body = strings.Join(rows, ",")
-	response.StatusCode = 200
-
-	return response
+	return network.OkResponse(strings.Join(rows, ","))
 }
 
 //Sum return the sum of the integers in the matrix
 func Sum(records [][]string) network.Response {
 	var sum int
-
-	response := network.Response{}
 
 	err := validateRecords(records) 
 
@@ -103,17 +85,12 @@ func Sum(records [][]string) network.Response {
 		}
 	}
 
-	response.Body = strconv.Itoa(sum)
-	response.StatusCode = 200
-
-	return response
+	return network.OkResponse(strconv.Itoa(sum))
 }
 
 //Multiply return the multiply of the integers in the matrix
 func Multiply(records [][]string) network.Response {
 	multiply := 1
-
-	response := network.Response{}
 
 	err := validateRecords(records)
 
@@ -134,10 +111,7 @@ func Multiply(records [][]string) network.Response {
 		}
 	}
 
-	response.Body = strconv.Itoa(multiply)
-	response.StatusCode = 200
-
-	return response
+	return network.OkResponse(strconv.Itoa(multiply))
 }
 
 func invertMatrix(matrix [][]string) [][]string {
@@ -162,6 +136,7 @@ func initializeMatrix(len int) [][]string {
 	return matrix
 }
 
+//A record is valid if is square sized and all the cells have numeric fields.
 func validateRecords(records [][]string) (error){
 	rowsLen := len(records)
 
