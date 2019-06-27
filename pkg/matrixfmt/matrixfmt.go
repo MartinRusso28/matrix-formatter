@@ -1,10 +1,8 @@
 package matrixfmt
 
 import (
-	"encoding/csv"
 	"errors"
 	"fmt"
-	"io"
 	"strconv"
 	"strings"
 
@@ -12,40 +10,38 @@ import (
 )
 
 //Echo return the matrix as a string in matrix format.
-func Echo(file io.Reader) network.Response {
+func Echo(records [][]string) network.Response {
 	var body string
 
 	response := network.Response{}
 
-	records, err := readFile(file) 
+	err := validateRecords(records) 
 
 	if err != nil {
-		response.Error = err
-		response.StatusCode = 500
-		return response
+		return network.InternalServerError(err)
 	}
+
 	for _, row := range records {
 		body = fmt.Sprintf("%s%s\n", body, strings.Join(row, ","))
 	}
 
 	response.Body = body
+	response.StatusCode = 200
 
 	return response
 }
 
 //Invert return the matrix as a string in matrix format where the columns and rows are inverted
-func Invert(file io.Reader) network.Response {
+func Invert(records [][]string) network.Response {
 	var (
 		body     string
 		response network.Response
 	)
 
-	records, err := readFile(file)
+	err := validateRecords(records)
 
 	if err != nil {
-		response.Error = errors.New("Cannot read the file")
-		response.StatusCode = 500
-		return response
+		return network.InternalServerError(err)
 	}
 
 	invertedMatrix := invertMatrix(records)
@@ -55,45 +51,45 @@ func Invert(file io.Reader) network.Response {
 	}
 
 	response.Body = body
+	response.StatusCode = 200
 
 	return response
 }
 
 //Flatten return the matrix as a 1 line string, with values separated by commas.
-func Flatten(file io.Reader) network.Response {
+func Flatten(records [][]string) network.Response {
 	var rows []string
 
 	response := network.Response{}
 
-	records, err := readFile(file)
+	err := validateRecords(records)
 
 	if err != nil {
-		response.Error = err
-		response.StatusCode = 500
-		return response
+		return network.InternalServerError(err)
 	}
+
 	for _, row := range records {
 		rows = append(rows, fmt.Sprintf("%s", strings.Join(row, ",")))
 	}
 
 	response.Body = strings.Join(rows, ",")
+	response.StatusCode = 200
 
 	return response
 }
 
 //Sum return the sum of the integers in the matrix
-func Sum(file io.Reader) network.Response {
+func Sum(records [][]string) network.Response {
 	var sum int
 
 	response := network.Response{}
 
-	records, err := readFile(file) 
+	err := validateRecords(records) 
 
 	if err != nil {
-		response.Error = err
-		response.StatusCode = 500
-		return response
+		return network.InternalServerError(err)
 	}
+
 	for _, row := range records {
 		for _, cell := range row {
 			num, err := strconv.Atoi(cell)
@@ -108,22 +104,21 @@ func Sum(file io.Reader) network.Response {
 	}
 
 	response.Body = strconv.Itoa(sum)
+	response.StatusCode = 200
 
 	return response
 }
 
 //Multiply return the multiply of the integers in the matrix
-func Multiply(file io.Reader) network.Response {
+func Multiply(records [][]string) network.Response {
 	multiply := 1
 
 	response := network.Response{}
 
-	records, err := readFile(file)
+	err := validateRecords(records)
 
 	if err != nil {
-		response.Error = err
-		response.StatusCode = 500
-		return response
+		return network.InternalServerError(err)
 	}
 
 	for _, row := range records {
@@ -140,6 +135,7 @@ func Multiply(file io.Reader) network.Response {
 	}
 
 	response.Body = strconv.Itoa(multiply)
+	response.StatusCode = 200
 
 	return response
 }
@@ -166,27 +162,22 @@ func initializeMatrix(len int) [][]string {
 	return matrix
 }
 
-
-func readFile(file io.Reader) ([][]string, error){
-	records, err := csv.NewReader(file).ReadAll()
-
-	if err != nil {
-		return nil, errors.New("Cannot read the file")
-	}
-
+func validateRecords(records [][]string) (error){
 	rowsLen := len(records)
 
 	for _, row := range records {
 		if len(row) != rowsLen {
-			return nil, errors.New("Invalid matrix size, must be square sized")
+			return errors.New("Invalid matrix size, must be square sized")
 		}
 
 		for _, cell := range row {
-			if cell == ""{
-				return nil, errors.New("Invalid cell value, all the cells must have a numeric value")
+			_, err := strconv.Atoi(cell)
+
+			if (err != nil) {
+				return errors.New("Invalid cell value, all the cells must have a numeric value")
 			}				
 		}
 	}
 
-	return records, nil
+	return nil
 }
