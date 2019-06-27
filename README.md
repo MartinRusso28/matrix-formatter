@@ -45,4 +45,7 @@ For fun the server:
     362880
     ``` 
 
-The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.  
+## Send the .csv file in the body with the 'file' param.
+
+The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.
+
