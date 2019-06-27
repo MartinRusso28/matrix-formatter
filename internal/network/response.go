@@ -16,3 +16,13 @@ func (r Response) Valid() bool {
 	valid, _ := govalidator.ValidateStruct(r)
 	return valid
 }
+
+//InternalServerError response.
+func InternalServerError(err error) Response {
+	response := Response{
+		StatusCode: 500,
+		Error: err,
+	}
+
+	return response
+}
