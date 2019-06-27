@@ -1,5 +1,9 @@
 # Matrix formatter
 
+For fun the server:
+    1- cd cmd/
+    2- go run main.go
+
 ## Server: localhost:8080
 
 ### Methods
